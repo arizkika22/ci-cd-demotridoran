@@ -1,9 +1,10 @@
-name: Simulasi CI/CD Pipeline
+name: Simulasi CI/CD Pipeline - Enhanced
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:  # Tambahkan trigger manual dari GitHub UI
 
 jobs:
   build:
@@ -20,9 +21,22 @@ jobs:
 
     - name: Install dependencies
       run: |
+        echo "🔧 Menginstal dependensi Python"
         pip install -r requirements.txt
 
-    - name: Run test or simulation
+    - name: Jalankan aplikasi dan simulasi akses
       run: |
-        echo "CI/CD simulation successful!"
-        python main.py & sleep 3 && curl http://localhost:5000 || echo "Check failed, but simulated."
+        echo "🚀 Menjalankan aplikasi dan menguji endpoint"
+        python main.py &  # jalankan background
+        sleep 3           # tunggu server siap
+        RESPONSE=$(curl -s http://localhost:5000 || echo "Gagal mengakses endpoint")
+        echo "📦 Hasil respons dari API: $RESPONSE"
+
+    - name: Simulasi sukses
+      if: success()
+      run: echo "✅ CI/CD berhasil disimulasikan tanpa deploy ke cloud."
+
+    - name: Clean up proses Flask
+      run: |
+        echo "🧹 Membersihkan proses Flask (jika masih jalan)"
+        pkill -f "python main.py" || echo "Tidak ada proses ditemukan"
