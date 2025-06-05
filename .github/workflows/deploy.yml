@@ -21,12 +21,12 @@ jobs:
 
     - name: Install dependencies
       run: |
-        echo "🔧 Menginstal dependensi Python"
+        echo 
         pip install -r requirements.txt
 
     - name: Jalankan aplikasi dan simulasi akses
       run: |
-        echo "🚀 Menjalankan aplikasi dan menguji endpoint"
+        echo "🚀 Menjalankan aplikasi dan menguji endpoint untuk tripedia asia"
         python main.py &  # jalankan background
         sleep 3           # tunggu server siap
         RESPONSE=$(curl -s http://localhost:5000 || echo "Gagal mengakses endpoint")
@@ -34,9 +34,9 @@ jobs:
 
     - name: Simulasi sukses
       if: success()
-      run: echo "✅ CI/CD berhasil disimulasikan tanpa deploy ke cloud."
+      run: echo "✅ CI/CD berhasil disimulasikan tanpa deploy ke cloud karena issue billing gcp."
 
     - name: Clean up proses Flask
       run: |
-        echo "🧹 Membersihkan proses Flask (jika masih jalan)"
-        pkill -f "python main.py" || echo "Tidak ada proses ditemukan"
+        echo 
+        pkill -f "python main.py" || echo 
